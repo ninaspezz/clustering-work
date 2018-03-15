@@ -92,7 +92,6 @@ table(wine.type)
 #clusplot( ... )
 
 library(cluster)
-fit.km$cluster
 clusplot(wine, fit.km$cluster)
 
 # Yes, I would consider this a good clustering based on the clusplot 

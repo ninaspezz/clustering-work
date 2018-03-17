@@ -1,7 +1,7 @@
 # Apply Machine Learning to Capstone
 March 17, 2018
 
-My capstone project's data doesn't quite lend itself to linear or logical regression. However, I'd like to explore clustering with my capstone data, using the same steps as in the clustering mini-project. 
+My capstone project's data doesn't quite lend itself to linear or logistic regression. However, I'd like to explore clustering with my capstone data, using the same steps as in the clustering mini-project. 
 
 As a first step, I will load the data, examine the structure and remove any columns container character values. Then I will scale the data.
 

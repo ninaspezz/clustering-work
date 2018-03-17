@@ -1,0 +1,56 @@
+# Apply Machine Learning to Capstone
+March 17, 2018
+
+My capstone project's data doesn't quite lend itself to linear or logical regression. However, I'd like to explore clustering with my capstone data, using the same steps as in the clustering mini-project. 
+
+As a first step, I will load the data, examine the structure and remove any columns container character values. Then I will scale the data.
+
+```{r}
+library(readr)
+library(dplyr)
+library(NbClust)
+library(cluster)
+df.clust <- read_csv('fitbit_data_clean.csv')
+df.clust <- select(df.clust, -date, -day_of_week)
+df.clust <- as.numeric(df.clust)
+df.clust <- scale(df.clust)
+```
+
+Next, I will cluster the data using K-Means and decide how many clusters to logically use when clustering this data. 
+
+```{r}
+wssplot <- function(data, nc=15, seed=1234){
+	              wss <- (nrow(data)-1)*sum(apply(data,2,var))
+               	      for (i in 2:nc){
+		        set.seed(seed)
+	                wss[i] <- sum(kmeans(data, centers=i)$withinss)}
+	                
+		      plot(1:nc, wss, type="b", xlab="Number of Clusters",
+	                        ylab="Within groups sum of squares")
+	   }
+
+wssplot(df.clust)
+```
+
+The bend in the plot suggest 2-3 clusters. 
+
+Next I will try the NbClust method.
+
+```{r}
+set.seed(1234)
+nc <- NbClust(df.clust, min.nc=2, max.nc=15, method="kmeans")
+barplot(table(nc$Best.n[1,]),
+        xlab="Numer of Clusters", ylab="Number of Criteria",
+        main="Number of Clusters Chosen by 26 Criteria")
+
+table(nc$Best.n[1,])
+```
+
+This method also suggests 2-3 clusters. 
+
+Next, I will run k-means using 3 clusters and visualize the clusters.
+
+```{r}
+fit.km <- kmeans(df.clust, 3)
+clusplot(fit.km, fit.km$cluster)
+```
